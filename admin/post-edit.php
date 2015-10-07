@@ -5,8 +5,7 @@ if($_SESSION['name']!='admin')
 {
 	header('location: login.php');
 }
-?>
-<?php
+
 include ('header.php');
 ?>
 			<h2>Edit Post</h2>
