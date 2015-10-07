@@ -7,12 +7,13 @@ if($_SESSION['name']!='admin')
 }
 
 include ('header.php');
+include("../config.php");
 ?>
 			<h2>Add New Post</h2>
 			<form method="post">
 				<table class="tbl1">
 					<tr><td>Post Title</td></tr>
-				    <tr><td><input class="long" type="text" name="" ></td></tr>
+				    <tr><td><input class="long" type="text" name="post_title" ></td></tr>
 				    <tr><td>Post Description</td></tr>
 				    <tr>
 					    <td>
@@ -42,9 +43,18 @@ include ('header.php');
 				    <tr>
 				    	<td>
 				    		<select name="">
-				    			<option value="">Computer</option>
-				    			<option value="">Technology</option>
-				    			<option value="">EEE</option>
+							<option value="">Select A Category</option>
+				    		<?php
+							$statement = $db->prepare("SELECT * FROM tbl_categories ORDER BY cat_name ASC");
+							$statement->execute();
+							$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+							foreach($result as $row)
+							{
+								?>
+								<option value="<?php echo $row['cat_id']; ?>"><?php echo $row['cat_name']; ?></option>
+								<?php
+							}
+							?>
 				    		</select>
 				    	</td>
 				    </tr> 
