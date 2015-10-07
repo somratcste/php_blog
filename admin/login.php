@@ -36,9 +36,7 @@ if(isset($_POST['form_login']))
 		{
 			throw new Exception('Invalid Username and/or password');
 		}
-	
-	
-	
+
 	}
 	
 	catch(Exception $e) {
