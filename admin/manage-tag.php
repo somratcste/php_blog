@@ -149,9 +149,6 @@ if(isset($success_message2)) {echo "<div class='success'>".$success_message2."</
 	}
 	?>
 	
-	
-	
-	
 </table>
 
 
