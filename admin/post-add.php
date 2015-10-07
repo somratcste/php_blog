@@ -61,9 +61,18 @@ include("../config.php");
 				    <tr><td>Select A Tag</td></tr>
 				    <tr>
 				    	<td>
-				    		<input type="checkbox" name="">&nbsp;Computer <br>
-				    		<input type="checkbox" name="">&nbsp;Technology <br>
-				    		<input type="checkbox" name="">&nbsp;EEE <br>
+				    	<?php
+							$statement = $db->prepare("SELECT * FROM tbl_tags ORDER BY tag_name ASC");
+							$statement->execute();
+							$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+							foreach($result as $row)
+							{
+								?>
+								<input type="checkbox" name="tag_name" value="<?php echo $row['tag_id'] ;?>">&nbsp;<?php echo $row['tag_name']; ?><br>
+								<?php
+							}
+							?>
+				    		
 				    	</td>
 				    </tr> 
 					<tr><td><input type="submit" value="SAVE"></td></tr>
