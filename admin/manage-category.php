@@ -7,9 +7,7 @@ if($_SESSION['name']!='admin')
 }
 include("../config.php");
 include ('header.php');
-?>
 
-<?php
 
 if(isset($_POST['form1']))
 {
