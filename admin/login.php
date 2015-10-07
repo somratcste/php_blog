@@ -4,8 +4,7 @@ if(isset($_POST['form_login']))
 {
 	
 	try {
-	
-		
+
 		if(empty($_POST['username'])) {
 			throw new Exception('Username can not be empty');
 		}
