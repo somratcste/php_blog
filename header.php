@@ -5,6 +5,12 @@
 <title>Nazmul Blog </title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <link rel="stylesheet" type="text/css" href="style.css" />
+<!-- Fancybox jQuery -->
+	<script type="text/javascript" src="fancybox/jquery-1.9.0.min.js"></script>
+	<script type="text/javascript" src="fancybox/jquery.fancybox.js"></script>
+	<script type="text/javascript" src="fancybox/main.js"></script>
+	<link rel="stylesheet" type="text/css" href="fancybox/jquery.fancybox.css" />
+<!-- //Fancybox jQuery -->
 </head>
 
 <body>

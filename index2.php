@@ -21,10 +21,56 @@ foreach($result as $row)
 
 <div class="post">
 	<h2><?php echo $row['post_title']; ?></h2>
-	<div><span class="date">Mar 18th</span><span class="categories">in: Photos, Retro</span></div>
-	<div class="description">
-		<p><img src="uploads/<?php echo $row['post_image']; ?>" alt="" width="200" height="140" />
-		<?php echo $row['post_description']; ?></p>
+	<div>
+		<span class="date">
+			<?php
+				
+				$post_date = $row['post_date'];
+				$day = substr($post_date,8,2);
+				$month = substr($post_date,5,2);
+				$year = substr($post_date,0,4);
+				if($month=='01') {$month="Jan";}
+				if($month=='02') {$month="Feb";}
+				if($month=='03') {$month="Mar";}
+				if($month=='04') {$month="Apr";}
+				if($month=='05') {$month="May";}
+				if($month=='06') {$month="Jun";}
+				if($month=='07') {$month="Jul";}
+				if($month=='08') {$month="Aug";}
+				if($month=='09') {$month="Sep";}
+				if($month=='10') {$month="Oct";}
+				if($month=='11') {$month="Nov";}
+				if($month=='12') {$month="Dec";}
+				echo $day.' '.$month.', '.$year;
+			?>
+		</span>
+		<span class="categories">
+		Tags :&nbsp;
+		<?php
+		$arr = explode(",",$row['tag_id']);
+		$count_arr = count(explode(",",$row['tag_id']));
+		$k=0;
+		for($j=0;$j<$count_arr;$j++)
+		{
+			
+			$statement1 = $db->prepare("SELECT * FROM tbl_tags WHERE tag_id=?");
+			$statement1->execute(array($arr[$j]));
+			$result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+			foreach($result1 as $row1)
+			{
+				$arr1[$k] = $row1['tag_name'];
+			}
+			$k++;
+		}
+		$tag_names = implode(",",$arr1);
+		echo $tag_names;
+		?>
+		</span>
+		</div>
+		<div class="description">
+			<p><a class="fancybox-effects-a" href="uploads/<?php echo $row['post_image']; ?>"><img src="uploads/<?php echo $row['post_image']; ?>" alt="" width="200"/></a>
+			<div style="clear:both;"></div>
+			<?php echo $row['post_description']; ?></p>
 	</div>
 </div>
 
