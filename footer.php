@@ -22,16 +22,50 @@
 			
 		</ul>
 		<img src="images/title2.gif" alt="" width="180" height="34" />
-		<ul>
-			<li><a href="#">January</a></li>
-			<li><a href="#">July</a></li>
-			<li><a href="#">February</a></li>
-			<li><a href="#">August</a></li>
-			<li><a href="#">March</a></li>
-			<li><a href="#">September</a></li>
-			<li><a href="#">April</a></li>
-			<li><a href="#">October</a></li>
+		<?php 
+			$j=0;
+			$statement = $db->prepare("SELECT distinct(post_date) FROM tbl_posts ORDER BY post_date DESC");
+			$statement->execute();
+			$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+			foreach($result as $row)
+			{
+				$ym = substr($row['post_date'],0,7);
+				$arr_date[$j] = $ym;
+				$j++;
+			}
 			
+			$result = array_unique($arr_date);
+			$final_val = implode(",",$result);
+			$final_arr_date = explode(",",$final_val);
+			$final_arr_date_count = count(explode(",",$final_val));
+						
+		?>
+		<ul>
+			<?php
+				for($j=0;$j<$final_arr_date_count;$j++)
+				{
+					//echo $final_arr_date[$j],"<br>";
+					$year = substr($final_arr_date[$j],0,4);
+					$month = substr($final_arr_date[$j],5,2);
+					
+					if($month=='01') {$month_full="January";}
+					if($month=='02') {$month_full="February";}
+					if($month=='03') {$month_full="March";}
+					if($month=='04') {$month_full="April";}
+					if($month=='05') {$month_full="May";}
+					if($month=='06') {$month_full="June";}
+					if($month=='07') {$month_full="July";}
+					if($month=='08') {$month_full="August";}
+					if($month=='09') {$month_full="September";}
+					if($month=='10') {$month_full="October";}
+					if($month=='11') {$month_full="November";}
+					if($month=='12') {$month_full="December";}
+					
+					?>
+					<li><a href="archive.php?date=<?php echo $final_arr_date[$j]; ?>"><?php echo $month_full.' '.$year; ?></a></li>
+					<?php
+				}				
+			?>
 		</ul>
 	</div>
 </div>
