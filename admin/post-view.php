@@ -106,9 +106,9 @@ include("../config.php");
 							</p>
 						</div>
 						&nbsp;|&nbsp;
-						<a href="post-edit.php">Edit</a>
+						<a href="post-edit.php?id=<?php echo $row['post_id']; ?>">Edit</a>
 						&nbsp;|&nbsp;
-							<a onclick='return confirmDelete();' href="">Delete</a>
+							<a onclick='return confirmDelete();' href="post-delete.php?id=<?php echo $row['post_id']; ?>">Delete</a>
 				</td>
 				</tr>
 				<?php
