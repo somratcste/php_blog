@@ -54,7 +54,7 @@ include("../config.php");
 										<td><b>Featured Image</b></td>
 									</tr>
 									<tr>
-										<td><img src="../uploads/<?php echo $row['post_image']; ?>" alt=""></td>
+										<td><img src="../uploads/<?php echo $row['post_image']; ?>" alt="" width = "200px"></td>
 									</tr>
 									<tr>
 										<td><b>Category Name</b></td>
