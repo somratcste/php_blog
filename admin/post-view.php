@@ -8,6 +8,7 @@ if($_SESSION['name']!='admin')
 ?>
 <?php
 include ('header.php');
+include("../config.php");
 ?>
 
 			<h2>View All Posts</h2>
@@ -17,9 +18,19 @@ include ('header.php');
 					<th width="70%">Title</th>
 					<th width="25%">Action</th>
 				</tr>
-				<tr>
-					<td>01.</td>
-					<td>Computer </td>
+				
+				<?php
+				$i=0;
+				$statement = $db->prepare("SELECT * FROM tbl_posts ORDER BY post_id DESC");
+				$statement->execute();
+				$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+				foreach($result as $row)
+				{
+					$i++;
+				?>
+					<tr>
+					<td><?php echo $i; ?></td>
+					<td><?php echo $row['post_title']; ?></td>
 					<td>
 						<a class="fancybox" href="#inline">view</a>
 						<div id="inline" style="width:700px;display: none;">
@@ -31,19 +42,35 @@ include ('header.php');
 										<td><b>Title Name</b></td>
 									</tr>
 									<tr>
-										<td>Original Wordpress Theme</td>
+										<td><?php echo $row['post_title']; ?></td>
 									</tr>
 									<tr>
 										<td><b>Description</b></td>
 									</tr>
 									<tr>
-										<td><p>Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . Put it on description . </p></td>
+										<td><?php echo $row['post_description']; ?></td>
 									</tr>
 									<tr>
 										<td><b>Featured Image</b></td>
 									</tr>
 									<tr>
-										<td><img src="" alt=""></td>
+										<td><img src="../uploads/<?php echo $row['post_image']; ?>" alt=""></td>
+									</tr>
+									<tr>
+										<td><b>Category Name</b></td>
+									</tr>
+									<tr>
+										<td>
+											<?php
+											$statement1 = $db->prepare("SELECT * FROM tbl_categories WHERE cat_id=?");
+											$statement1->execute(array($row['cat_id']));
+											$result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+											foreach($result1 as $row1)
+											{
+												echo $row1['cat_name'];
+											}
+											?>
+										</td>
 									</tr>
 									<tr>
 										<td><b>Tag Name</b></td>
@@ -64,7 +91,11 @@ include ('header.php');
 							<a onclick='return confirmDelete();' href="">Delete</a>
 				</td>
 				</tr>
+				<?php
+
+				}
 				
+				?>
 				
 			</table>
 
