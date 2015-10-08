@@ -76,7 +76,27 @@ include("../config.php");
 										<td><b>Tag Name</b></td>
 									</tr>
 									<tr>
-										<td>Computer, Technology, Bangladesh</td>
+										<td>
+											<?php
+											$arr = explode(",",$row['tag_id']);
+											$count_arr = count(explode(",",$row['tag_id']));
+											$k=0;
+											for($j=0;$j<$count_arr;$j++)
+											{
+												
+												$statement1 = $db->prepare("SELECT * FROM tbl_tags WHERE tag_id=?");
+												$statement1->execute(array($arr[$j]));
+												$result1 = $statement1->fetchAll(PDO::FETCH_ASSOC);
+												foreach($result1 as $row1)
+												{
+													$arr1[$k] = $row1['tag_name'];
+												}
+												$k++;
+											}
+											$tag_names = implode(",",$arr1);
+											echo $tag_names;
+											?>
+										</td>
 									</tr>
 									<tr>
 										<td><input type="submit" value="UPDATE" name="form2"></td>
