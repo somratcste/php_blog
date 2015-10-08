@@ -1,13 +1,37 @@
 <?php include('header.php') ?>
+<?php
+
+if(!isset($_REQUEST['id'])) {
+	header("location: index.php");
+}
+else {
+	$id = $_REQUEST['id'];
+}
+
+?>
+
+<?php 
+include ('config.php');
+$statement = $db->prepare("SELECT * FROM tbl_posts WHERE post_id = ?");
+$statement->execute(array($_REQUEST['id']));
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+foreach($result as $row)
+{
+?>
 
 <div class="post">
-	<h2>Retro Photos</h2>
+	<h2><?php echo $row['post_title']; ?></h2>
 	<div><span class="date">Mar 18th</span><span class="categories">in: Photos, Retro</span></div>
 	<div class="description">
-		<p><img src="images/pic1.jpg" alt="" width="200" height="140" />
-		Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. Massa ac laoreet iaculipede nisl ullamcorpermassa, ac consectetuer feipsum eget pede.  Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio.  massa ac laoreet iaculipede niorpermassa,consectetuer feipsum eget pede. Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio. Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Proin nunc. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. Massa ac laoreet iaculipede nisl ullamcorpermassa, ac consectetuer feipsum eget pede.  Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio.  massa ac laoreet iaculipede niorpermassa,consectetuer feipsum eget pede. Proin nunc. Donec massa. Nulla pulvinar, nisl ac convallis nonummy, tellus eros sodales enim, in tincidunt mauris in odio. Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis.</p>
+		<p><img src="uploads/<?php echo $row['post_image']; ?>" alt="" width="200" height="140" />
+		<?php echo $row['post_description']; ?></p>
 	</div>
 </div>
+
+<?php
+}
+?>
+
 
 
 <div id="comments">

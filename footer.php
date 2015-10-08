@@ -6,7 +6,19 @@
 	<div class="list">
 		<img src="images/title1.gif" alt="" width="186" height="36" />
 		<ul>
-			<li><a href="#">animation</a></li>
+			<?php
+			    include ('config.php');
+				$statement = $db->prepare("SELECT * FROM tbl_categories");
+				$statement->execute();
+				$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+				foreach($result as $row) 
+				{
+					?>
+					<li><a href="#"><?php echo $row['cat_name']; ?></a></li>
+					<?php
+				}
+			?>
+			
 			
 		</ul>
 		<img src="images/title2.gif" alt="" width="180" height="34" />
