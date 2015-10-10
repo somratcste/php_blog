@@ -167,7 +167,21 @@ foreach($result as $row)
 			echo $final_words ;
 		?>
 	</div>
-	<p class="comments">Comments - 17   <span>|</span>   <a href="index2.php?id=<?php echo $row['post_id'] ?>">Continue Reading</a></p>
+	<p class="comments">
+
+	Comments - 
+
+	<?php 
+
+	$statement1 = $db->prepare("SELECT * FROM tbl_comments WHERE active = 1 and post_id = ?");
+	$statement1->execute(array($row['post_id']));
+	$total_number = $statement1->rowCount();
+	echo $total_number;
+
+	?>
+
+
+	<span>|</span>   <a href="index2.php?id=<?php echo $row['post_id'] ?>">Continue Reading</a></p>
 	</div>
 
 	<?php
