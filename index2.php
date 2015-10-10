@@ -10,6 +10,50 @@ else {
 
 ?>
 
+<?php
+
+if(isset($_POST['c_email'])) {
+
+	try {
+	
+		if(empty($_POST['c_message'])) {
+			throw new Exception("Message field can not be empty.");
+		}
+		
+		if(empty($_POST['c_name'])) {
+			throw new Exception("Name field can not be empty.");
+		}
+		
+		if(empty($_POST['c_email'])) {
+			throw new Exception("Email field can not be empty.");
+		}
+		
+		if(!(preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/", $_POST['c_email']))) {
+			throw new Exception("Please enter a valid email address.");
+		}
+		
+		$c_date = date('Y-m-d');
+		$active=0;
+		
+		include "config.php";
+		
+		$statement = $db->prepare("INSERT INTO tbl_comments (c_name,c_email,c_url,c_message,c_date,post_id,active) VALUES (?,?,?,?,?,?,?)");
+		$statement->execute(array($_POST['c_name'],$_POST['c_email'],$_POST['c_url'],$_POST['c_message'],$c_date,$id,$active));
+		
+			
+		$success_message = "Your comment has been sent. It will be published on the website after admin's approval.";
+	
+	}
+	
+	catch(Exception $e) {
+		$error_message = $e->getMessage();
+	}
+
+
+}
+
+?>
+
 <?php 
 include ('config.php');
 $statement = $db->prepare("SELECT * FROM tbl_posts WHERE post_id = ?");
@@ -81,24 +125,82 @@ foreach($result as $row)
 
 
 <div id="comments">
-	<img src="images/title3.gif" alt="" width="216" height="39" /><br />									
+	<img src="images/title3.gif" alt="" width="216" height="39" /><br />	
+
+<?php 
+$statement = $db->prepare("SELECT * FROM tbl_comments WHERE active = 1 AND post_id = ?");
+$statement->execute(array($id));
+$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+foreach($result as $row)
+{
+?>
+
 	<div class="comment">
 		<div class="avatar">
-			<img src="images/avatar1.jpg" alt="" width="80" height="80" /><br />
-			<span>Name User</span><br />
-			April 15th
+
+		<?php 
+					$gravatarMd5 = md5($row['c_email']);
+					//$gravatarMd5 = "";   // when no gravatar is found
+				?>
+				<img src="http://www.gravatar.com/avatar/<?php echo $gravatarMd5; ?>" alt="" width="80" height="80"> <br>
+				
+				<!--<img src="images/avatar1.jpg" alt="" width="80" height="80" /><br />-->
+			
+			<span>
+				
+				<?php 
+					if(empty($row['c_url']))
+					{
+						echo $row['c_name']; 
+					}
+					else
+					{
+						echo "<a href='".$row['c_url']."'>";
+						echo $row['c_name'];
+						echo "</a>";
+					}
+				?>
+				
+				</span><br />
+			
+			<?php
+				
+				$post_date = $row['c_date'];
+				$day = substr($post_date,8,2);
+				$month = substr($post_date,5,2);
+				$year = substr($post_date,0,4);
+				if($month=='01') {$month="Jan";}
+				if($month=='02') {$month="Feb";}
+				if($month=='03') {$month="Mar";}
+				if($month=='04') {$month="Apr";}
+				if($month=='05') {$month="May";}
+				if($month=='06') {$month="Jun";}
+				if($month=='07') {$month="Jul";}
+				if($month=='08') {$month="Aug";}
+				if($month=='09') {$month="Sep";}
+				if($month=='10') {$month="Oct";}
+				if($month=='11') {$month="Nov";}
+				if($month=='12') {$month="Dec";}
+				echo $day.' '.$month.', '.$year;
+			?>
 		</div>
-		<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. Aenean sit amturpis. Maecenas hendrerit, massa ac laoreet iaculipede mnisl ullamcorpermassa, cosectetuer feipsum eget pede. Donec nonummy, tellus er sodales enim, in tincidunmauris in odio. </p>
+		<p><?php echo $row['c_message']; ?> </p>
 	</div>
-	<div class="comment">
-		<div class="avatar">
-			<img src="images/avatar2.gif" alt="" width="80" height="80" /><br />
-			<span>Name User</span><br />
-			April 12th
-		</div>
-		<p>Lorem ipsum dolor sit amet, consectetuer adipi scing elit.Mauris urna urna, varius et, interdum a, tincidunt quis, libero. </p>
-	</div>
+
+<?php     
+
+}
+
+?>
+
+
+
 	<div id="add">
+
+		<?php
+				if(isset($error_message)) {echo "<div class='error'>".$error_message."</div>";}
+				if(isset($success_message)) {echo "<div class='success'>".$success_message."</div>";}
+		?>
 		<img src="images/title4.gif" alt="" width="216" height="47" class="title" /><br />
 		<div class="avatar">
 			<img src="images/avatar2.gif" alt="" width="80" height="80" /><br />
@@ -106,12 +208,13 @@ foreach($result as $row)
 			April 12th
 		</div>
 		<div class="form">
-			<form action="#">
-				<textarea>Your Message...</textarea><br />
-				<input type="text" value="Name" /><br />
-				<input type="text" value="E-mail" /><br />
-				<input type="text" value="URL (Optional)" /><br />
-				<a href="#"><img src="images/button.gif" alt="" width="94" height="27" /></a>
+			<form action="index2.php?id=<?php echo $id; ?>" method="post">
+				<textarea name="c_message" placeholder="Your Message here"></textarea><br />
+				<input type="text" name="c_name" value="" placeholder="Name" /><br />
+				<input type="text" name="c_email" placeholder="E-mail" /><br />
+				<input type="text" name="c_url" placeholder="URL (Optional)" /><br />
+				<input type="image" src="images/button.gif" alt="">
+				<!--<input type="submit" value="Add Comment">-->
 			</form>
 		</div>
 	</div>
