@@ -354,3 +354,19 @@ div.pagination span.disabled {
 	color: #929693;
 }
 /* ====================== Pagination Ends ====================== */	
+
+input[type="image"] {
+	width: 94px;
+	height: 27px;
+	border: 0px;
+}
+
+.error {
+	color: red;
+	font-weight: bold;
+}
+
+.success {
+	color: green!important;
+	font-weight: bold;
+}
