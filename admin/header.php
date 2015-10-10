@@ -45,5 +45,12 @@
 				<li><a href="manage-tag.php">Manage Tags</a></li>
 
 			</ul>
+
+			<h2>Comments Options</h2>
+			<ul>
+				<li><a href="comment-approve.php">View Comments</a></li>
+
+			</ul>
+
 		</div>
 		<div id="content">
