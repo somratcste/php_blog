@@ -32,8 +32,8 @@ include("../config.php");
 					<td><?php echo $i; ?></td>
 					<td><?php echo $row['post_title']; ?></td>
 					<td>
-						<a class="fancybox" href="#inline">view</a>
-						<div id="inline" style="width:700px;display: none;">
+						<a class="fancybox" href="#inline<?php echo $i; ?>">view</a>
+						<div id="inline<?php echo $i; ?>" style="width:700px;display: none;">
 							<h3 style="border-bottom:2px solid blue; margin-top:10px;">Edit Data</h3>
 							<p>
 								<form action="" method="post">
