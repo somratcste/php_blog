@@ -68,7 +68,6 @@ if(isset($success_message)) {echo "<div class='success'>".$success_message."</di
 		<th width="">S.No.</th>
 		<th width="">Name</th>
 		<th width="">Email</th>
-		<th width="">URL</th>
 		<th width="">Message</th>
 		<th width="">Post ID</th>
 		<th width="">Active</th>
@@ -87,7 +86,6 @@ if(isset($success_message)) {echo "<div class='success'>".$success_message."</di
 		<td><?php echo $i; ?></td>
 		<td><?php echo $row['c_name']; ?></td>
 		<td><?php echo $row['c_email']; ?></td>
-		<td><?php echo $row['c_url']; ?></td>
 		<td><?php echo $row['c_message']; ?></td>
 		<td>
 
@@ -199,14 +197,13 @@ if(isset($success_message)) {echo "<div class='success'>".$success_message."</di
 		<th width="">S.No.</th>
 		<th width="">Name</th>
 		<th width="">Email</th>
-		<th width="">URL</th>
 		<th width="">Message</th>
 		<th width="">Post ID</th>
 		<th width="">Active</th>
 	</tr>
 	
 	<?php
-	$n=0;
+	$i=0;
 	$statement = $db->prepare("SELECT * FROM tbl_comments WHERE active = 1 ORDER BY c_id DESC");
 	$statement->execute();
 	$result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -215,10 +212,9 @@ if(isset($success_message)) {echo "<div class='success'>".$success_message."</di
 		$i++;
 	?>
 		<tr>
-		<td><?php echo $n; ?></td>
+		<td><?php echo $i; ?></td>
 		<td><?php echo $row['c_name']; ?></td>
 		<td><?php echo $row['c_email']; ?></td>
-		<td><?php echo $row['c_url']; ?></td>
 		<td><?php echo $row['c_message']; ?></td>
 		<td>
 
